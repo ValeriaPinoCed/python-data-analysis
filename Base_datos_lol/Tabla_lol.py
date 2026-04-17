@@ -190,6 +190,6 @@ else:
 # sumamos a los stats base del campeon los stats que le da cada item
         stats_totales = stats_campeon + stats_objetos
 
-        print("\nCampeón elegido:", campeon_filtrado["Nombre"])
+        print("\nCampeón elegido:", campeon["Nombre"])
         print("\nObjetos elegidos:", ", ".join(lista_items))
         print("\n", stats_totales)
