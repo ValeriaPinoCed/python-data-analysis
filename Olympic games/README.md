@@ -6,6 +6,7 @@ Análisis de datos de atletas olímpicos usando Python, Pandas y Matplotlib.
 
 Este script carga un dataset de *atletas olímpicos* y lo limpia para facilitar su análisis.  
 Después, permite hacer filtros por país, apellido, altura y peso, además de *generar gráficos para visualizar la distribución de los datos*.
+Por último, genera un HTML donde se pueden comprobar filtros de datos en formato *Tabla* y *Gráficos*
 
 ## Funcionalidades
 
@@ -27,8 +28,8 @@ Analysis of Olympic athlete data using Python, Pandas, and Matplotlib.
 ## Description
 
 This script loads a dataset of *Olympic athletes* and cleans it to facilitate analysis.
-
 It then allows filtering by country, last name, height, and weight, as well as *generating graphs to visualize the data distribution*.
+Finally, it generates an HTML file where data filters can be checked in *Table* and *Graph* format.
 
 ## Features
 
