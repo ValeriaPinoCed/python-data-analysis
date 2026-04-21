@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valeria | Portfolio de análisis de datos</title>
+  <meta name="description"
+    content="Portfolio profesional de análisis de datos, inteligencia y visualización con proyectos en Python, Pandas y reporting web." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --surface-2: #f1efe9;
+      --text: #22201b;
+      --muted: #6c6a65;
+      --border: rgba(34, 32, 27, .12);
+      --primary: #0a6b70;
+      --primary-2: #0e5156;
+      --shadow: 0 10px 30px rgba(26, 27, 31, 0.08);
+      --radius: 20px;
+      --max: 1120px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #141412;
+      --surface: #1b1b18;
+      --surface-2: #22211e;
+      --text: #ece8df;
+      --muted: #b0aca3;
+      --border: rgba(236, 232, 223, .12);
+      --primary: #63aeb4;
+      --primary-2: #8bc7cc;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+    }
+
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--text);
+      color: var(--bg);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toggle {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 72px 0 44px;
+      display: grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    h1 {
+      font-family: "Source Serif 4", serif;
+      font-size: clamp(2.8rem, 7vw, 5.8rem);
+      line-height: .95;
+      margin: 18px 0 18px;
+      max-width: 10ch;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 60ch;
+      margin-bottom: 26px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      color: white;
+      border-color: transparent;
+    }
+
+    .btn.secondary {
+      background: var(--surface);
+    }
+
+    .hero-card,
+    .card,
+    .about,
+    .contact {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 24px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.7rem;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .section {
+      padding: 28px 0 12px;
+    }
+
+    .section h2 {
+      font-family: "Source Serif 4", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 10px;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: 65ch;
+      margin-bottom: 24px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      overflow: hidden;
+    }
+
+    .card-top {
+      padding: 20px;
+      background:
+        radial-gradient(circle at top right, rgba(10, 107, 112, .18), transparent 30%),
+        linear-gradient(135deg, var(--surface-2), var(--surface));
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .card-top img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+
+    .tag {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(10, 107, 112, .12);
+      color: var(--primary-2);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .link-btn {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      font-weight: 600;
+    }
+
+    .about {
+      padding: 26px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .list-item {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .contact {
+      margin: 32px 0 72px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 0 0 40px;
+    }
+
+    @media (max-width: 960px) {
+
+      .hero,
+      .about,
+      .projects {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .navlinks {
+        width: 100%;
+        overflow: auto;
+      }
+
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        max-width: 100%;
+      }
+
+      .contact {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Inicio portfolio">
+        <span class="logo">VA</span>
+        <span>Valeria · Data Analysis</span>
+      </a>
+      <nav class="navlinks" aria-label="Navegación principal">
+        <a href="#proyectos">Proyectos</a>
+        <a href="#perfil">Perfil</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="toggle" type="button" data-theme-toggle aria-label="Cambiar tema">◐</button>
+    </div>
+  </header>
+
+  <main id="inicio" class="container">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Portfolio profesional · Python · Pandas · Reporting</span>
+        <h1>Análisis de datos con enfoque narrativo y operativo.</h1>
+        <p class="lead">Soy Valeria Pino, analista de inteligencia en proceso de aprendizaje para manejar bases de datos
+          y convertirlos en piezas claras, útiles y accionables de información. Trabajo con limpieza de datos, reporting
+          y visualización, con experiencia en análisis cuantitativo dentro de la inteligencia, seguridad y análisis de
+          riesgo.</p>
+        <div class="actions">
+          <a class="btn primary" href="#proyectos">Ver proyectos</a>
+          <a class="btn secondary" href="https://github.com/asmodeusas" target="_blank"
+            rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Resumen profesional">
+        <div class="metric-grid">
+          <div class="metric">
+            <strong>3</strong>
+            <span>proyectos publicados</span>
+          </div>
+          <div class="metric">
+            <strong>Python</strong>
+            <span>análisis y automatización</span>
+          </div>
+          <div class="metric">
+            <strong>Pandas Library</strong>
+            <span>limpieza, filtrado y visualización</span>
+          </div>
+          <div class="metric">
+            <strong>OSINT</strong>
+            <span>contexto e inteligencia</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="proyectos" class="section">
+      <h2>Proyectos destacados</h2>
+      <p class="section-intro">Estoy trabajando con bases de datos para mejorar en mi limpieza de datos, filtrado,
+        estructuración, visualización y
+        publicación web con Pandas, Python y HTML. La idea del portfolio es enseñar no solo código, sino también cómo
+        presento resultados para que
+        otras personas puedan entenderlo de forma clara.</p>
+      <div class="projects">
+        <article class="card">
+          <div class="card-top">
+            <img src="https://significado.com/contenido/imp/14.png" alt="Vista previa del informe Olympic Games Report">
+            <span class="tag">Python · Pandas · Matplotlib</span>
+          </div>
+          <div class="card-body">
+            <h3>Olympic Games Report</h3>
+            <p>Informe con tratamiento de datos de atletas de los Juegos Olímpicos mediante la utilización de filtros
+              exploratorios en tablas y visualización de distribuciones en formato de gráficos
+              en HTML.</p>
+            <div class="meta">
+              <span class="pill">Data cleaning</span>
+              <span class="pill">EDA</span>
+              <span class="pill">HTML report</span>
+            </div>
+            <div class="card-links">
+              <a class="link-btn"
+                href="https://asmodeusas.github.io/python-data-analysis/Olympic%20games/reporte_olimpicos.html"
+                target="_blank" rel="noopener noreferrer">Abrir proyecto</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <img
+              src="https://wiki.leagueoflegends.com/en-us/images/thumb/Season_2024_Promo_01.jpg/400px-Season_2024_Promo_01.jpg?c6d35"
+              alt="Vista previa de campeones del League of Legends">
+            <span class="tag">Data structuring · Game data</span>
+          </div>
+          <div class="card-body">
+            <h3>League of Legends · Campeones</h3>
+            <p>Limpieza y organización de base de datos web para su estructuración y fácil comprensión además de su
+              posterior transformación en HTML como tabla. El código
+              contiene inputs para el usuario donde introducir los campeones y los items y comprobar como afecta a las
+              estadísticas totales.
+            </p>
+            <div class="meta">
+              <span class="pill">Tablas</span>
+              <span class="pill">Dataset design</span>
+              <span class="pill">Web output</span>
+            </div>
+            <div class="card-links">
+              <a class="link-btn" href="https://asmodeusas.github.io/python-data-analysis/Base_datos_lol/campeones.html"
+                target="_blank" rel="noopener noreferrer">Abrir proyecto</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <img
+              src="https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/e28b2fc66a2474f7ff04c60aad36cd16a371afbf-1920x1080.jpg?accountingTag=LoL"
+              alt="Vista previa de los items del League of Legends">
+            <span class="tag">Classification · Reference tables</span>
+          </div>
+          <div class="card-body">
+            <h3>League of Legends · Items</h3>
+            <p>Limpieza y organización de base de datos web para su estructuración y fácil comprensión además de su
+              posterior transformación en HTML como tabla para posteriormente poder relacionarla con la tabla de
+              campeones y extraer resultados en base a estadísticas.</p>
+            <div class="meta">
+              <span class="pill">Reference data</span>
+              <span class="pill">HTML</span>
+              <span class="pill">Data presentation</span>
+            </div>
+            <div class="card-links">
+              <a class="link-btn" href="https://asmodeusas.github.io/python-data-analysis/Base_datos_lol/items.html"
+                target="_blank" rel="noopener noreferrer">Abrir proyecto</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="perfil" class="section">
+      <h2>Perfil</h2>
+      <div class="about">
+        <div>
+          <p>Mi perfil combina análisis de datos con la producción de entregables claros para que el trabajo técnico
+            tenga salida práctica. Me interesa especialmente transformar información compleja en reportes, dashboards y
+            páginas HTML para que se pueda comprobar el resultado.</p>
+          <p>Trabajo con Python, Pandas y herramientas de visualización y poseo conocimientos intermedios en Power BI
+            para la visualización de datos.</p>
+        </div>
+        <div class="list" aria-label="Capacidades principales">
+          <div class="list-item"><strong>Análisis y limpieza de datos</strong><br><span
+              style="color:var(--muted)">Pandas, transformación, filtros, clasificación y preparación para
+              reporting.</span></div>
+          <div class="list-item"><strong>Visualización y reporting</strong><br><span style="color:var(--muted)">HTML,
+              gráficos, tablas legibles y presentación pública en GitHub Pages.</span></div>
+          <div class="list-item"><strong>Contexto analítico</strong><br><span style="color:var(--muted)">Análisis de
+              datos con utilidad operativa.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="section">
+      <div class="contact">
+        <div>
+          <h2>Contacto</h2>
+          <p class="section-intro" style="margin:0;">Si quieres ver el código de mis proyectos en detalle puedes verlo
+            en mi Github. También puedes contactar conmigo vía e-mail.</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" href="https://github.com/asmodeusas" target="_blank" rel="noopener noreferrer">Ver
+            GitHub</a>
+          <a class="btn secondary" href="mailto:valeria.pino.ced00@gmail.com">Escribirme</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Portfolio personal para GitHub Pages.
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const btn = document.querySelector('[data-theme-toggle]');
+      const root = document.documentElement;
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      btn.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+      });
+    })();
+  </script>
+</body>
+
+</html>
