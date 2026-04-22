@@ -116,7 +116,7 @@ for linea in colores_linea.keys():
 
 # le damos forma y color a las Oficinas de Correos y las situamos en el mapa según su longitud y latitud
 for _, row in Oficinas.dropna(subset=["Latitud", "Longitud"]).iterrows():
-    popup_text = f"{row['Direccion']}<br>{row['Codigo Postal']}"
+    popup_text = f"{row['Direccion']}<br>{row['Codigo Postal']}<br>{row['Distrito']}<br>{row['Area']}<br>{row['Horario']}"
     folium.Marker(
         location=[row["Latitud"], row["Longitud"]],
         popup=popup_text,
