@@ -242,6 +242,16 @@
 
     .card {
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .card-top {
@@ -258,9 +268,10 @@
 
     .card-top img {
       width: 100%;
-      height: 180px;
+      height: 150px;
       object-fit: cover;
       border-radius: 14px;
+      display: block;
     }
 
 
@@ -275,9 +286,6 @@
       letter-spacing: .02em;
     }
 
-    .card-body {
-      padding: 22px;
-    }
 
     .card h3 {
       margin: 0 0 10px;
@@ -422,7 +430,7 @@
       <aside class="hero-card" aria-label="Resumen profesional">
         <div class="metric-grid">
           <div class="metric">
-            <strong>4</strong>
+            <strong>5</strong>
             <span>proyectos publicados</span>
           </div>
           <div class="metric">
@@ -543,6 +551,35 @@
               <a class="link-btn"
                 href="https://asmodeusas.github.io/python-data-analysis/Oficinas%20Correos%20y%20Estaciones%20Metro/Mapa_Oficinas_Correos.html"
                 target="_blank" rel="noopener noreferrer">Abrir proyecto</a>
+            </div>
+          </div>
+        </article>
+
+
+
+        <article class="card">
+          <div class="card-top">
+            <img
+              src="https://dixit.gencat.cat/web/.content/home/04recursos/01dossiers_tematics/2024/20241202desinformacio-fake-news/desinformacio.png"
+              alt="Vista previa del proyecto Fake News Detector">
+            <span class="tag">Python · Streamlit · NLP</span>
+          </div>
+          <div class="card-body">
+            <h3>Fake News Detector</h3>
+            <p>Proyecto de clasificación de noticias reales y falsas usando limpieza de texto, vectorización TF-IDF y un
+              clasificador SGD. Incluye una interfaz interactiva en Streamlit y la generación de un informe HTML con
+              resultados, métricas y visualizaciones.</p>
+            <div class="meta">
+              <span class="pill">Machine Learning</span>
+              <span class="pill">NLP</span>
+              <span class="pill">Streamlit</span>
+            </div>
+            <div class="card-links">
+              <a class="link-btn"
+                href="https://asmodeusas.github.io/python-data-analysis/Fake%20News%20Detector/news_report.html"
+                target="_blank" rel="noopener noreferrer">
+                Abrir proyecto
+              </a>
             </div>
           </div>
         </article>
