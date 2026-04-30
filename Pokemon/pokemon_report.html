@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokemon Analysis Report</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(17, 24, 39, 0.82);
+      --card: rgba(23, 32, 51, 0.96);
+      --card-2: rgba(31, 41, 55, 0.96);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --accent-2: #34d399;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.14);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(96,165,250,.14), transparent 28%),
+        radial-gradient(circle at right, rgba(52,211,153,.08), transparent 24%),
+        linear-gradient(180deg, #070b16 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(17,24,39,.96), rgba(31,41,55,.9));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 78ch;
+      margin-top: 14px;
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(31,41,55,.92), rgba(23,32,51,.96));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      min-width: 0;
+    }
+
+    .kpi { grid-column: span 3; }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .section { margin-top: 22px; }
+
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+    }
+
+    .section p {
+      color: var(--muted);
+      margin: 0 0 16px;
+    }
+
+    .plot {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #0a1222;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .table-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .table-wide {
+      grid-column: 1 / -1;
+    }
+
+    .subcard {
+      background: rgba(10, 18, 34, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .subcard h3 {
+      margin: 0 0 12px;
+      font-size: 0.98rem;
+      color: #fff;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(10, 18, 34, 0.55);
+    }
+
+    .table-scroll table {
+      width: 100%;
+      min-width: max-content;
+      border-collapse: collapse;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .table-scroll th,
+    .table-scroll td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    .table-scroll th {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(17, 24, 39, 0.98);
+    }
+
+    .table-scroll td:first-child,
+    .table-scroll th:first-child {
+      position: sticky;
+      left: 0;
+      background: rgba(17, 24, 39, 0.98);
+      z-index: 1;
+    }
+
+    .table-scroll tr:hover td {
+      background: rgba(255,255,255,.03);
+    }
+
+    .footer {
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 1080px) {
+      .kpi { grid-column: span 6; }
+      .two-col { grid-template-columns: 1fr; }
+      .table-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .kpi { grid-column: span 12; }
+      .hero, .card { padding: 18px; }
+      h1 { font-size: 1.9rem; }
+      .value { font-size: 1.7rem; }
+      .table-scroll table { font-size: 12px; }
+      .table-scroll th,
+      .table-scroll td { padding: 9px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="eyebrow">Pokemon Data Analysis</div>
+      <h1>Pokemon Data Report</h1>
+      <p class="subtitle">
+        Exploratory analysis of base stats, type distribution, legendary Pokémon, speed, and highlighted rankings.
+      </p>
+    </header>
+
+    <section class="grid">
+      <div class="card kpi">
+        <div class="label">Total Pokémon</div>
+        <div class="value">800</div>
+        <div class="hint">Loaded records</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Legendary Pokémon</div>
+        <div class="value">65</div>
+        <div class="hint">Pokémon legendarios</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Max Attack</div>
+        <div class="value">190</div>
+        <div class="hint">Base Attack</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Max Speed</div>
+        <div class="value">180</div>
+        <div class="hint">Base Speed</div>
+      </div>
+    </section>
+
+    <section class="section two-col">
+      <div class="card">
+        <h2>Type distribution</h2>
+        <p>Share of Pokémon by primary type.</p>
+        <img class="plot" src="Pokemon Types.png" alt="Type distribution">
+      </div>
+
+      <div class="card">
+        <h2>Quick summary</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Poison type total</td><td>62</td></tr>
+              <tr><td>Fire/Flying</td><td>5</td></tr>
+              <tr><td>Top Attack</td><td>Rampardos</td></tr>
+              <tr><td>Top Defense</td><td>Shuckle</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>Top 20 Attack</h2>
+      <p>Pokémon with the highest base Attack, excluding special forms.</p>
+      <img class="plot" src="High Attack.png" alt="Top ataques">
+    </section>
+
+    <section class="section card">
+      <h2>Top 20 Defense</h2>
+      <p>Pokémon with the highest base Defense, excluding special forms.</p>
+      <img class="plot" src="High Defense.png" alt="Top defensas">
+    </section>
+
+    <section class="section card">
+      <h2>Legendary Pokémon vs no legendarios</h2>
+      <p>Overall distribution of legendary Pokémon.</p>
+      <img class="plot" src="Legendary and Non Legendary.png" alt="Legendary Pokémon y no legendarios">
+    </section>
+
+    <section class="section card">
+      <h2>Legendary Pokémon por tipo</h2>
+      <p>Most common types within the legendary group.</p>
+      <img class="plot" src="Legendary Type.png" alt="Legendary Pokémon por tipo">
+    </section>
+
+    <section class="section card">
+      <h2>Attack vs Defense</h2>
+      <p>Relationship between both stats, separated by legendary status.</p>
+      <img class="plot" src="Relation Attack-Defense.png" alt="Relación ataque y defensa">
+    </section>
+
+    <section class="section card">
+      <h2>Speed distribution</h2>
+      <p>Histogram of the Speed stat with a density curve.</p>
+      <img class="plot" src="Speed stat.png" alt="Speed distribution">
+    </section>
+
+    <section class="section card">
+      <h2>Highlighted tables</h2>
+      <p>Summary rankings and reference tables.</p>
+      <div class="table-grid">
+        <div class="subcard">
+          <h3>Top totals</h3>
+          <div class="table-scroll">
+            <table class="dataframe pokemon-table">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Name</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>RayquazaMega Rayquaza</td>
+      <td>780</td>
+    </tr>
+    <tr>
+      <td>KyogrePrimal Kyogre</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <td>GroudonPrimal Groudon</td>
+      <td>770</td>
+    </tr>
+    <tr>
+      <td>Arceus</td>
+      <td>720</td>
+    </tr>
+    <tr>
+      <td>LatiosMega Latios</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>KyuremBlack Kyurem</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>KyuremWhite Kyurem</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>SalamenceMega Salamence</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>LatiasMega Latias</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>GarchompMega Garchomp</td>
+      <td>700</td>
+    </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+
+        <div class="subcard">
+          <h3>Top totals sin mega</h3>
+          <div class="table-scroll">
+            <table class="dataframe pokemon-table">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Name</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Arceus</td>
+      <td>720</td>
+    </tr>
+    <tr>
+      <td>Palkia</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>Dialga</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>Reshiram</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>Rayquaza</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>Zekrom</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>Kyogre</td>
+      <td>670</td>
+    </tr>
+    <tr>
+      <td>Slaking</td>
+      <td>670</td>
+    </tr>
+    <tr>
+      <td>Groudon</td>
+      <td>670</td>
+    </tr>
+    <tr>
+      <td>Regigigas</td>
+      <td>670</td>
+    </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+
+        <div class="subcard table-wide">
+          <h3>Dragon Gen 5 and 6</h3>
+          <div class="table-scroll">
+            <table class="dataframe pokemon-table">
+  <thead>
+    <tr style="text-align: left;">
+      <th>#</th>
+      <th>Name</th>
+      <th>Type 1</th>
+      <th>Type 2</th>
+      <th>HP</th>
+      <th>Attack</th>
+      <th>Defense</th>
+      <th>Sp. Atk</th>
+      <th>Sp. Def</th>
+      <th>Speed</th>
+      <th>Generation</th>
+      <th>Legendary</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>643</td>
+      <td>Reshiram</td>
+      <td>Dragon</td>
+      <td>Fire</td>
+      <td>100</td>
+      <td>120</td>
+      <td>100</td>
+      <td>150</td>
+      <td>120</td>
+      <td>90</td>
+      <td>5</td>
+      <td>True</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>644</td>
+      <td>Zekrom</td>
+      <td>Dragon</td>
+      <td>Electric</td>
+      <td>100</td>
+      <td>150</td>
+      <td>120</td>
+      <td>120</td>
+      <td>100</td>
+      <td>90</td>
+      <td>5</td>
+      <td>True</td>
+      <td>680</td>
+    </tr>
+    <tr>
+      <td>635</td>
+      <td>Hydreigon</td>
+      <td>Dark</td>
+      <td>Dragon</td>
+      <td>92</td>
+      <td>105</td>
+      <td>90</td>
+      <td>125</td>
+      <td>90</td>
+      <td>98</td>
+      <td>5</td>
+      <td>False</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>706</td>
+      <td>Goodra</td>
+      <td>Dragon</td>
+      <td>-</td>
+      <td>90</td>
+      <td>100</td>
+      <td>70</td>
+      <td>110</td>
+      <td>150</td>
+      <td>80</td>
+      <td>6</td>
+      <td>False</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td>612</td>
+      <td>Haxorus</td>
+      <td>Dragon</td>
+      <td>-</td>
+      <td>76</td>
+      <td>147</td>
+      <td>90</td>
+      <td>60</td>
+      <td>70</td>
+      <td>97</td>
+      <td>5</td>
+      <td>False</td>
+      <td>540</td>
+    </tr>
+    <tr>
+      <td>715</td>
+      <td>Noivern</td>
+      <td>Flying</td>
+      <td>Dragon</td>
+      <td>85</td>
+      <td>70</td>
+      <td>80</td>
+      <td>97</td>
+      <td>80</td>
+      <td>123</td>
+      <td>6</td>
+      <td>False</td>
+      <td>535</td>
+    </tr>
+    <tr>
+      <td>697</td>
+      <td>Tyrantrum</td>
+      <td>Rock</td>
+      <td>Dragon</td>
+      <td>82</td>
+      <td>121</td>
+      <td>119</td>
+      <td>69</td>
+      <td>59</td>
+      <td>71</td>
+      <td>6</td>
+      <td>False</td>
+      <td>521</td>
+    </tr>
+    <tr>
+      <td>691</td>
+      <td>Dragalge</td>
+      <td>Poison</td>
+      <td>Dragon</td>
+      <td>65</td>
+      <td>75</td>
+      <td>90</td>
+      <td>97</td>
+      <td>123</td>
+      <td>44</td>
+      <td>6</td>
+      <td>False</td>
+      <td>494</td>
+    </tr>
+    <tr>
+      <td>621</td>
+      <td>Druddigon</td>
+      <td>Dragon</td>
+      <td>-</td>
+      <td>77</td>
+      <td>120</td>
+      <td>90</td>
+      <td>60</td>
+      <td>90</td>
+      <td>48</td>
+      <td>5</td>
+      <td>False</td>
+      <td>485</td>
+    </tr>
+    <tr>
+      <td>705</td>
+      <td>Sliggoo</td>
+      <td>Dragon</td>
+      <td>-</td>
+      <td>68</td>
+      <td>75</td>
+      <td>53</td>
+      <td>83</td>
+      <td>113</td>
+      <td>60</td>
+      <td>6</td>
+      <td>False</td>
+      <td>452</td>
+    </tr>
+  </tbody>
+</table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>Legendary Fire Pokémon</h2>
+      <div class="table-scroll">
+        <table class="dataframe pokemon-table">
+  <thead>
+    <tr style="text-align: left;">
+      <th>Name</th>
+      <th>Attack</th>
+      <th>Generation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ho-oh</td>
+      <td>130</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Reshiram</td>
+      <td>120</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Entei</td>
+      <td>115</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Volcanion</td>
+      <td>110</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>Moltres</td>
+      <td>100</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Victini</td>
+      <td>100</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>Heatran</td>
+      <td>90</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+    </section>
+
+    <div class="footer">
+      Generated with Python, Pandas, Matplotlib, Seaborn, and Jinja2.
+    </div>
+  </div>
+</body>
+</html>
